@@ -1,0 +1,3 @@
+rootProject.name = 'TriolabPark'
+
+include ':app'
