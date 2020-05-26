@@ -7,9 +7,7 @@ export default class ListItem extends React.PureComponent {
   render() {
     return (
       <View style={this.props.state ? styles.itemGreen : styles.itemRed}>
-        <Text style={styles.text}>
-          {this.props.name}
-        </Text>
+        <Text style={styles.text}>{this.props.name}</Text>
         <View style={styles.div} />
       </View>
     );
@@ -41,7 +39,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex: 1,
     flexWrap: "wrap",
-    margin: 20
+    margin: 20,
+    textAlign: "center",
+    
   },
 
   fieldImage: {

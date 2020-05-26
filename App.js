@@ -24,6 +24,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      load: "working",
       opacity: new Animated.Value(0),
       subscribed: false,
       loading: true,
@@ -32,7 +33,7 @@ export default class App extends Component {
       coords: [
         { x: "55%", y: "86%" },
         { x: "55%", y: "79.2%" },
-        { x: "55%", y: "72.6%" }, //6.8
+        { x: "55%", y: "72.6%" },
         { x: "55%", y: "65.8%" },
         { x: "55%", y: "59%" },
         { x: "55%", y: "52.2%" },
@@ -47,7 +48,6 @@ export default class App extends Component {
         { x: "6%", y: "18.2%" },
         { x: "6%", y: "11.4%" },
         { x: "72%", y: "3%" }
-
       ]
     };
     this.unsubscribe = null;
@@ -91,6 +91,7 @@ export default class App extends Component {
   };
 
   toggleSpot = (state, id) => {
+    this.setState({ name: "" });
     firebase
       .firestore()
       .collection("Spots")
@@ -99,6 +100,7 @@ export default class App extends Component {
         available: !state
       });
   };
+
   render() {
     if (this.state.loading) {
       return <View style={styles.container} />;
@@ -117,6 +119,8 @@ export default class App extends Component {
               style={{ width: "100%", height: "100%" }}
               onLoadEnd={() => this.setState({ loading: false })}
             />
+
+            <Text>{this.state.name}</Text>
 
             <React.Fragment>
               {this.state.spots.map(item => (
@@ -143,7 +147,11 @@ export default class App extends Component {
                     this.toggleSpot(item.available, item.id);
                   }}
                 >
-                  <Text adjustsFontSizeToFit style={styles.text}>
+                  <Text
+                    adjustsFontSizeToFit
+                    numberOfLines={2}
+                    style={styles.text}
+                  >
                     {item.name}
                   </Text>
                 </TouchableOpacity>
@@ -163,10 +171,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+
   welcome: {
     fontSize: 20,
     textAlign: "center",
-    margin: 10
+    margin: 20
   },
   instructions: {
     textAlign: "center",
@@ -178,6 +187,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    color: "white"
+    color: "white",
+    textAlign: "center",
+    textAlignVertical: "center"
   }
 });
