@@ -15,9 +15,9 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-  Animated
+  Animated,
 } from "react-native";
-import ListItem from "./src/ListItem";
+import ListItem from "./src/components/ListItem";
 import firebase from "react-native-firebase";
 
 export default class App extends Component {
@@ -47,8 +47,8 @@ export default class App extends Component {
         { x: "6%", y: "25%" },
         { x: "6%", y: "18.2%" },
         { x: "6%", y: "11.4%" },
-        { x: "72%", y: "3%" }
-      ]
+        { x: "72%", y: "3%" },
+      ],
     };
     this.unsubscribe = null;
     this.ref = firebase.firestore().collection("Spots");
@@ -64,15 +64,15 @@ export default class App extends Component {
       this.unsubscribe();
     }
   }
-  onCollectionUpdate = querySnapshot => {
+  onCollectionUpdate = (querySnapshot) => {
     const spots = [];
-    querySnapshot.forEach(doc => {
+    querySnapshot.forEach((doc) => {
       spots.push({
         key: doc.id,
 
         id: doc.id,
         available: doc.data().available,
-        name: doc.data().name
+        name: doc.data().name,
       });
     });
     var loading = this.state.loading;
@@ -86,19 +86,15 @@ export default class App extends Component {
     Animated.timing(this.state.opacity, {
       toValue: 1,
       duration: 200,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   };
 
   toggleSpot = (state, id) => {
     this.setState({ name: "" });
-    firebase
-      .firestore()
-      .collection("Spots")
-      .doc(id)
-      .update({
-        available: !state
-      });
+    firebase.firestore().collection("Spots").doc(id).update({
+      available: !state,
+    });
   };
 
   render() {
@@ -111,7 +107,7 @@ export default class App extends Component {
             style={{
               aspectRatio: 0.45,
               height: "100%",
-              opacity: this.state.opacity
+              opacity: this.state.opacity,
             }}
           >
             <Image
@@ -123,7 +119,7 @@ export default class App extends Component {
             <Text>{this.state.name}</Text>
 
             <React.Fragment>
-              {this.state.spots.map(item => (
+              {this.state.spots.map((item) => (
                 <TouchableOpacity
                   style={[
                     {
@@ -136,11 +132,11 @@ export default class App extends Component {
                       borderRadius: 4,
                       alignItems: "center",
                       justifyContent: "center",
-                      borderWidth: 4
+                      borderWidth: 4,
                     },
                     item.available
                       ? { backgroundColor: "#3bd774", borderColor: "#32bc65" }
-                      : { backgroundColor: "#d74a3a", borderColor: "#bc3f31" }
+                      : { backgroundColor: "#d74a3a", borderColor: "#bc3f31" },
                   ]}
                   key={item.id}
                   onPress={() => {
@@ -169,26 +165,26 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   welcome: {
     fontSize: 20,
     textAlign: "center",
-    margin: 20
+    margin: 20,
   },
   instructions: {
     textAlign: "center",
     color: "#333333",
-    marginBottom: 5
+    marginBottom: 5,
   },
   item: {
-    width: "100%"
+    width: "100%",
   },
   text: {
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
-    textAlignVertical: "center"
-  }
+    textAlignVertical: "center",
+  },
 });
